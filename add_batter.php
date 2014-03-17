@@ -27,6 +27,7 @@ if (htmlspecialchars($_GET["sent"])) {
 	if ($stmt->execute(array($_GET['player'])) && $stmt->rowCount()) {
 		while ($player = $stmt->fetch()) {
 			$_pa += $player['pa'];
+			$_h += $player['h'];
 			$_bb += $player['bb'];
 			$_so += $player['so'];
 			$_hbp += $player['hbp'];
