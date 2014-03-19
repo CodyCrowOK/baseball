@@ -38,7 +38,7 @@ echo"
 	</thead>
 ";
 
-foreach($db->query('SELECT * FROM batting') as $player) {
+foreach($db->query('SELECT * FROM `batting` ORDER BY `pa` DESC') as $player) {
 	//Calculations
 	
 	//OBP = OB / PA
@@ -60,7 +60,11 @@ foreach($db->query('SELECT * FROM batting') as $player) {
 	$ops = $obp + $slg;
 	
 	//Runs Created = (Hits + BB)(Total Bases) / (AB + BB)
-	$rc = ($player['h'] + $player['bb']) / ($ab + $player['bb']);
+	//$rc = ($player['h'] + $player['bb']) / ($ab + $player['bb']);
+	$rca = $player['h'] + $player['bb'] - $player['cs'] + $player['hbp'];
+	$rcb = (1.125 * ($player['h'] - ($player['2b'] + $player['3b'] + $player['hr']))) + (1.69 * $player['2b']) + (3.02 * $player['3b']) + (3.73 * $player['hr']) + (.29 * ($player['bb'] + $player['hbp'])) + (.492 * ($player['sac'] + $player['sb'])) - (.04 * $player['so']);
+	$rcc = $ab + $player['bb'] + $player['hbp'] + $player['sac'];
+	$rc = (((2.4 * $rcc + $rca) * (3 * $rcc + $rcb)) / (9 * $rcc)) - (.9 * $rcc);
 	
 	//Stolen Base Percentage = SB / (SB + CS)
 	$sbp = $player['sb'] / ($player['sb'] + $player['cs']);
@@ -134,7 +138,7 @@ echo "<thead>";
 echo "</thead>";
 
 
-foreach($db->query('SELECT * FROM pitching') as $player) {
+foreach($db->query('SELECT * FROM `pitching` ORDER BY `ip` DESC') as $player) {
 	//Calculations
 	
 	//Earned Run Average = (Earned Runs / IP) * 7
