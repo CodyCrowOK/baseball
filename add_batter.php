@@ -90,6 +90,8 @@ if (htmlspecialchars($_GET["sent"])) {
 
 
 ?>
+
+<h1>Add a Batter's Statistics</h1>
 <form action="add_batter.php" method="get">
 Player Name: <br />
 <input type="text" name="player" /><br />
