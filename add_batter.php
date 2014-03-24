@@ -2,29 +2,45 @@
 
 $db = new PDO('mysql:host=localhost;dbname=baseball;charset=utf8', 'root', '');
 
-if (htmlspecialchars($_GET["sent"])) {
+if (htmlspecialchars($_POST["sent"])) {
 	
-	$_player = $_GET["player"];
-	$_pa = $_GET["pa"];
-	$_h = $_GET["h"];
-	$_bb = $_GET["bb"];
-	$_so = $_GET["so"];
-	$_hbp = $_GET["hbp"];
-	$_2b = $_GET["2b"];
-	$_3b = $_GET["3b"];
-	$_hr = $_GET["hr"];
-	$_rbi = $_GET["rbi"];
-	$_sac = $_GET["sac"];
-	$_r = $_GET["r"];
-	$_sb = $_GET["sb"];
-	$_cs = $_GET["cs"];
-	$_ob = $_GET["ob"];
+	//Anyone who says this is bad practice is a communist.
+	$_player = 	trim($_POST["player"]);
+	filter_var($_player, FILTER_SANITIZE_STRING);
+	$_pa = 		trim($_POST["pa"]);
+	if (!is_numeric($_pa)) goto not_numeric;
+	$_h = 		trim($_POST["h"]);
+	if (!is_numeric($_h)) goto not_numeric;
+	$_bb = 		trim($_POST["bb"]);
+	if (!is_numeric($_bb)) goto not_numeric;
+	$_so = 		trim($_POST["so"]);
+	if (!is_numeric($_so)) goto not_numeric;
+	$_hbp = 	trim($_POST["hbp"]);
+	if (!is_numeric($_hbp)) goto not_numeric;
+	$_2b = 		trim($_POST["2b"]);
+	if (!is_numeric($_2b)) goto not_numeric;
+	$_3b = 		trim($_POST["3b"]);
+	if (!is_numeric($_3b)) goto not_numeric;
+	$_hr = 		trim($_POST["hr"]);
+	if (!is_numeric($_hr)) goto not_numeric;
+	$_rbi = 	trim($_POST["rbi"]);
+	if (!is_numeric($_rbi)) goto not_numeric;
+	$_sac = 	trim($_POST["sac"]);
+	if (!is_numeric($_sac)) goto not_numeric;
+	$_r = 		trim($_POST["r"]);
+	if (!is_numeric($_r)) goto not_numeric;
+	$_sb = 		trim($_POST["sb"]);
+	if (!is_numeric($_sb)) goto not_numeric;
+	$_cs = 		trim($_POST["cs"]);
+	if (!is_numeric($_cs)) goto not_numeric;
+	$_ob = 		trim($_POST["ob"]);
+	if (!is_numeric($_ob)) goto not_numeric;
 	
 
 	//Process player if it matches one already in the database.
 	$stmt = $db->prepare('SELECT * FROM batting WHERE player = ?');
 	
-	if ($stmt->execute(array($_GET['player'])) && $stmt->rowCount()) {
+	if ($stmt->execute(array($_player)) && $stmt->rowCount()) {
 		while ($player = $stmt->fetch()) {
 			$_pa += $player['pa'];
 			$_h += $player['h'];
@@ -85,6 +101,12 @@ if (htmlspecialchars($_GET["sent"])) {
 			echo "New Player";
 	}
 	echo "<br /><span style='color:#0a0;font-weight:900;text-size:18px;'>Player stats added.</span><br />";
+	$success = 1;
+	//Invalid Input was entered, apparently
+	//xkcd.com/292
+	not_numeric:
+	if (!$success) echo "<br /><span style='color:#c00;font-weight:900;text-size:18px;'>Invalid player stats were entered. Check that all stats are entered and correct.</span><br />";
+	//Do nothing...
 }
 
 
@@ -92,7 +114,7 @@ if (htmlspecialchars($_GET["sent"])) {
 ?>
 
 <h1>Add a Batter's Statistics</h1>
-<form action="add_batter.php" method="get">
+<form action="add_batter.php" method="post">
 Player Name: <br />
 <input type="text" name="player" /><br />
 Plate Appearances: <br />
