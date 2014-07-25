@@ -4,7 +4,6 @@ A Simple way to calculate player statistics.
 --------------------------------------------
 I created this PHP/MySQL script for my own team's usage because everything else is both worthless and expensive. This presents a no-nonsense display of statistics for both pitching and hitting.
 
-None of the input is validated, so it would not be wise to place add_batter.php or add_pitcher.php in a public directory. And it would be wise to double check added info.
 
 
 #Metrics Used#
