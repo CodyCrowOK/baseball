@@ -1,10 +1,7 @@
 Baseball Statistics Calculator
 ==============================
-A Simple way to calculate player statistics.
---------------------------------------------
-I created this PHP/MySQL script for my own team's usage because everything else is both worthless and expensive. This presents a no-nonsense display of statistics for both pitching and hitting.
 
-
+A very simple baseball stats calculator. This project has no authentication, so don't expose it to the internet.
 
 #Metrics Used#
 
